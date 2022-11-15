@@ -1,9 +1,9 @@
 <Html>
     <Head>
         <Title>
-            Show UV Info
+            Show Rain Info
         </Title>
-        <link rel="stylesheet" type = "text/css" href="../homepage/page.css" >
+        <link rel="stylesheet" type = "text/css" href="../homepage/style.css" >
         <style>
             table{
                 width : 50%;
@@ -36,23 +36,25 @@
     </Head>
     <Body>
         <?php
-            include ("login.php");
-            include_once("createUVTable.php");
-            include_once ("insertUVTable.php");
+            include_once ("login.php");
+            include_once("createRainTable.php");
+            include_once ("insertRainTable.php");
             
-            $uvday = $_POST["inputuvdate"];
-            $uvregion = $_POST['inputuvregion'];
+            $rainday = $_POST["inputraindate"];
+            $rainregion = $_POST['inputrainregion'];
 
-            if(isset($uvday) && isset($uvregion)){
-                
-                $sql = "SELECT * FROM uvtable WHERE uvdate = '".$uvday."' and region_code = '".$uvregion."'";
+            if(isset($rainday) && isset($rainregion)){
+                $sql = "SELECT * FROM PRECIPITAIONTABLE WHERE raindate = '".$rainday."' and region_code = '".$rainregion."'";
+
                 $res = mysqli_query($mysqli, $sql);      
                 $result = mysqli_fetch_array($res);
 
-                $prov = isset($result['region_code'])?$result['region_code']:false;
-                $rate = $result['insolation'];
+                $prov = $result['region_code'];
+                $rate = $result['precipitation'];
             }
-            //mysqli_close($mysqli);
+            //echo "this is ".$prov."";
+            
+            
             /*
             <?php
 
@@ -73,18 +75,18 @@
             <div class="grid-header">
                 <a href="../homepage/home.html" class="grid-header">Home</a>
             </div>
-            <table >
-                <caption> <?php echo $uvregion; ?> </caption>
+            <table>
+                <caption> <?php echo $rainregion; ?> </caption>
                 <tr>
                     <th> Date </th>
-                    <th> Insolation Rate </th>
+                    <th> Precipitation </th>
                 </tr>
                 <tr>
-                    <td> <?php echo $uvday; ?> </td>
+                    <td> <?php echo $prov; ?> </td>
                     <td> <?php echo $rate; ?></td>
                 </tr>
             </table>
-        </div>       
+        </div>
     </Body>
 
 </Html>
